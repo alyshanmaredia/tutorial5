@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
 const getUser = require('../middleware/user');
-const Constants = require('../utils/constants');
+const Constants = require('../utils/Constants');
 
 // Get all users
 router.get('/', async (req, res) => {

@@ -4,6 +4,7 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 require('dotenv').config();
 const Constants = require('./utils/Constants');
+const userRoutes = require('./routes/users');
 
 // Middleware parser
 app.use(bodyParser.json());
@@ -14,7 +15,6 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(err => console.log(err));
 
 //get the users route
-const userRoutes = require('./routes/users');
 app.use('/users', userRoutes);
 
 app.get('/', (req, res) => {
