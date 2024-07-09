@@ -1,0 +1,15 @@
+{
+  "name": "csci_5709_tutorial5",
+  "version": "1.0.0",
+  "description": "tutorial5 users API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Alishan Ali",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mongoose": "^8.5.0"
+  }
+}
