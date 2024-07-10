@@ -43,7 +43,6 @@ router.put(Constants.PUTUSERBYID, async (req, res) => {
                 return res.status(404).json({ error: Constants.RECORDNOTFOUND });
             }
 
-
         res.status(200).json({
             message: Constants.USERUPDATED,
             success: true
