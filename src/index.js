@@ -15,7 +15,7 @@ mongoose.connect(process.env.MONGODB_URI)
     .catch(err => console.log(err));
 
 //get the users route
-app.use('/users', userRoutes);
+app.use('/', userRoutes);
 
 app.get('/', (req, res) => {
     res.send(Constants.BASEROUTEMSG);

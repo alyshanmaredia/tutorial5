@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/user');
-const getUser = require('../middleware/user');
+const getUser = require('../middleware/getUser');
 const Constants = require('../utils/Constants');
 
-// Get all users
-router.get('/', async (req, res) => {
+// Get all users using GET
+router.get(Constants.GETALLUSERS, async (req, res) => {
     try {
         const users = await User.find();
         const formattedUsers = users.map(user => ({
@@ -26,31 +26,38 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Update user
-router.patch('/:id', getUser, async (req, res) => {
-    if (req.body.firstName != null) {
-        res.user.firstName = req.body.firstName;
-    }
-    if (req.body.email != null) {
-        res.user.email = req.body.email;
-    }
-
+// Update user using PUT
+router.put(Constants.PUTUSERBYID, async (req, res) => {
     try {
-        const updatedUser = await res.user.save();
+        const userId = req.params.id;
+        const { firstName, email } = req.body;
+
+            // Find user by ID and update
+            const updatedUser = await User.findByIdAndUpdate(
+                userId,
+                { firstName, email },
+                { new: true }
+            );
+
+            if (!updatedUser) {
+                return res.status(404).json({ error: Constants.RECORDNOTFOUND });
+            }
+
+
         res.status(200).json({
             message: Constants.USERUPDATED,
             success: true
         });
-    } catch (err) {
-        res.status(400).json({
-            message: err.message,
+    } catch (error) {
+        return res.status(500).json({
+            message: error.message,
             success: false
         });
     }
 });
 
-// Create new user
-router.post('/', async (req, res) => {
+// Create new user using POST
+router.post(Constants.ADDNEWUSER, async (req, res) => {
     const user = new User({
         firstName: req.body.firstName,
         email: req.body.email
@@ -71,16 +78,13 @@ router.post('/', async (req, res) => {
 });
 
 
-// Get single user
-router.get('/:id', getUser, (req, res) => {
+// Get single user using GET
+router.get(Constants.GETUSERBYID, getUser, (req, res) => {
     res.status(200).json({
         success: true,
-        user: res.user
+        user: res.locals.user
     });
 });
-
-
-
 
 
 module.exports = router;
